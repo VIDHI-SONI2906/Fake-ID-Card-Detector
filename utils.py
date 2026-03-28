@@ -3,44 +3,113 @@ import cv2
 import numpy as np
 import pytesseract
 from PIL import Image
+from tensorflow.keras.preprocessing.image import img_to_array
 
-# Set the path to the Tesseract executable (VERY IMPORTANT!)
-# Replace the path below with the correct path on your computer.
-# For Windows, it might be 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-# For macOS with Homebrew, it might be '/usr/local/bin/tesseract'
-if os.name == 'nt':  # Checks if the operating system is Windows
-    # Update this path to where you installed Tesseract
+# =========================
+# TESSERACT CONFIGURATION
+# =========================
+if os.name == 'nt':  # Windows
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 else:
-    # This is a common path for Linux/macOS
     pytesseract.pytesseract.tesseract_cmd = '/usr/local/bin/tesseract'
 
+
+# =========================
+# IMAGE PREPROCESSING (CNN)
+# =========================
+IMG_HEIGHT = 150
+IMG_WIDTH = 150
+
+def preprocess_image(file):
+    """
+    Preprocess image for CNN model prediction.
+
+    Supports:
+    - PIL Image
+    - Streamlit uploaded file
+    - File path (string)
+    """
+
+    # ✅ Handle all input types
+    if isinstance(file, Image.Image):
+        img = file
+    else:
+        img = Image.open(file)
+
+    # Ensure image is RGB
+    img = img.convert("RGB")
+
+    # Resize
+    img = img.resize((IMG_WIDTH, IMG_HEIGHT))
+
+    # Convert to array
+    img = img_to_array(img)
+
+    # Normalize
+    img = img / 255.0
+
+    # Add batch dimension
+    img = np.expand_dims(img, axis=0)
+
+    return img
+
+
+# =========================
+# CNN PREDICTION FUNCTION
+# =========================
+def predict_image(model, file):
+    """
+    Predict whether ID card is Real or Fake.
+
+    Returns:
+    - label (str)
+    - confidence (float)
+    """
+
+    img = preprocess_image(file)
+    prediction = float(model.predict(img)[0][0])
+
+    if prediction > 0.5:
+        return "Real ID Card", prediction
+    else:
+        return "Fake ID Card", 1 - prediction
+
+
+# =========================
+# OCR FUNCTIONS
+# =========================
 def load_image_for_ocr(file):
     """
-    Loads an image from a Streamlit uploaded file object for OCR processing.
-    Returns the image in OpenCV format (BGR).
+    Convert uploaded file to OpenCV format for OCR.
     """
-    img = Image.open(file)
-    img = np.array(img)
-    # Convert from RGB (PIL) to BGR (OpenCV)
+
+    if isinstance(file, Image.Image):
+        img = np.array(file)
+    else:
+        img = Image.open(file)
+        img = np.array(img)
+
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return img
 
+
 def extract_text(img):
     """
-    Extracts text from an OpenCV image.
-    The image is first converted to grayscale for better OCR results.
+    Extract text from image using Tesseract OCR.
     """
+
     if img is None:
         return "No image provided."
-    
+
+    # Convert to grayscale
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    # Use pytesseract to extract text
+
     try:
         text = pytesseract.image_to_string(img_gray)
         return text.strip()
+
     except pytesseract.TesseractNotFoundError:
-        return "Tesseract executable not found. Please check the path in utils.py."
+        return "Tesseract not found. Check installation path."
+
     except Exception as e:
-        return f"An error occurred during OCR: {e}"
+        return f"OCR Error: {e}"
