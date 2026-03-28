@@ -160,7 +160,10 @@ python fileimg.py
 * Upload ID card image
 * Model predicts: **Real / Fake**
 
-(Add your screenshots here if needed)
+<img width="1919" height="1020" alt="Screenshot 2026-03-29 011845" src="https://github.com/user-attachments/assets/d554a547-b904-45d2-a0fc-e03581e5ad82" />
+
+<img width="1892" height="639" alt="image" src="https://github.com/user-attachments/assets/f5dae1a1-1c19-4110-b58c-f7b774729fc8" />
+
 
 ---
 
