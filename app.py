@@ -99,7 +99,8 @@ if cnn_model:
                 st.subheader("🧠 CNN Analysis")
                 st.markdown(f"**Prediction Score:** `{cnn_score:.4f}`")
 
-                # Probability Bar
+                # Probability Bar 
+                # And Displaying prediction confidence score
                 st.progress(int(cnn_score * 100))  
                 st.markdown(f"**Confidence: {cnn_score*100:.2f}% Real**")
 
