@@ -101,7 +101,7 @@ def extract_text(img):
     if img is None:
         return "No image provided."
 
-    # Convert to grayscale
+    # Convert to grayscale.
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     try:
