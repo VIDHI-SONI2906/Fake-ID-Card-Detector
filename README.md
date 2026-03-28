@@ -1,97 +1,196 @@
-Fake ID Card Detector:-
+# 🪪 Fake ID Card Detector
 
-Detects Real vs Fake ID Cards using a CNN model, OpenCV, and Streamlit.
+A Computer Vision project that detects whether an ID card is **Real or Fake** using a **Convolutional Neural Network (CNN)**, **OpenCV**, and a **Streamlit-based UI**.
 
-🚀 Features
+---
 
-1. Upload ID card image on Streamlit frontend to get instant prediction
-2. Train your own CNN model on custom dataset
-3. Test model by uploading individual images (URL or local path via fileimg.py)
-4. Image preprocessing with OpenCV
-5. Lightweight Python project with reusable modules
+## 📌 Overview
 
-📁 Project Structure
+This project allows users to upload an ID card image and instantly receive a prediction (Real/Fake). It also provides functionality to train a custom CNN model and test it on new data.
+
+The system is designed to demonstrate practical applications of Deep Learning in identity verification.
+
+---
+
+## 🚀 Features
+
+* 📤 Upload ID card image via Streamlit UI
+* 🤖 Predict whether the ID is **Real or Fake**
+* 🧠 Train your own CNN model on a custom dataset
+* 🧪 Test model performance on validation data
+* 🌐 Predict images using URL or local file path
+* ⚡ Fast and lightweight implementation using Python
+
+---
+
+## 🗂️ Project Structure
+
+```
 Fake-ID-Card-Detector/
-│── app.py               # Streamlit frontend
-│── train_cnn.py         # Train CNN model
-│── test_cnn.py          # Test model accuracy
-│── fileimg.py           # Predict single image by URL or path
-│── utils.py             # Helper functions
-│── cnn_model_dataset/   # Dataset folder
-│── requirements.txt
-│── model.h5             # (Not included, download separately)
+│── app.py                # Streamlit frontend
+│── train_cnn.py          # Train CNN model
+│── test_cnn.py           # Evaluate model
+│── fileimg.py            # Predict image via URL/path
+│── utils.py              # Helper functions
+│── cnn_model_dataset/    # Dataset (train + validation)
+│── requirements.txt      # Dependencies
+│── model.h5              # Trained model (download separately)
 │── README.md
-│── venv/                # Ignored
+│── venv/                 # Virtual environment (ignored)
+```
 
-📥 Download Trained Model
+---
 
- model.h5 is not on GitHub due to size (>100MB)
- 
-Download from Google Drive and place it in project root:
+## 📥 Download Trained Model
 
--> Fake-ID-Card-Detector/model.h5
+The trained model (`model.h5`) is not included in this repository due to size limitations.
 
-🔧 Installation
+👉 Download it from Google Drive:
+**https://drive.google.com/file/d/1gN2ypbv4tmt2DtL4zIPYnugwD_sRMMME/view?usp=sharing**
 
-1. Create virtual environment
+After downloading, place it in the project root directory:
 
--> python -m venv venv
+```
+Fake-ID-Card-Detector/model.h5
+```
 
--> venv\Scripts\activate
+---
 
-2. Install dependencies:
+## ⚙️ Installation & Setup
 
--> pip install -r requirements.txt
+### 1. Clone the repository
 
-▶️ Run Streamlit Frontend
+```
+git clone <your-repo-link>
+cd Fake-ID-Card-Detector
+```
 
--> streamlit run app.py
-<img width="1904" height="930" alt="Screenshot 2025-12-12 164248" src="https://github.com/user-attachments/assets/f81d3cc0-45c5-4b1d-bd5e-1a9db2f01261" />
-<img width="1870" height="949" alt="Screenshot 2025-12-12 164404" src="https://github.com/user-attachments/assets/40a3f07a-cd88-4eb5-b875-0c1419172d76" />
-<img width="1909" height="927" alt="Screenshot 2025-12-12 164428" src="https://github.com/user-attachments/assets/92c67396-a75b-4048-8e32-43a823e104d6" />
+### 2. Create virtual environment
+
+```
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+---
+
+## ▶️ Run the Application (Frontend)
+
+```
+streamlit run app.py
+```
+
+### Steps:
 
 1. Upload an ID card image
-2. Get prediction: Real / Fake
+2. Click predict
+3. Get output → **Real / Fake**
 
-🧠 Train & Test Backend
+---
 
-1. Using Custom Dataset
-   Organize your dataset:
-   cnn_model_dataset/
+## 🧠 Model Training & Testing
+
+### 📁 Dataset Structure
+
+```
+cnn_model_dataset/
 │── train/
-│     ├── real/
-│     └── fake/
+│   ├── real/
+│   └── fake/
 │── val/
-      ├── real/
-      └── fake/
+    ├── real/
+    └── fake/
+```
 
-Train model:
+---
 
--> python train_cnn.py
+### 🔹 Train Model
 
-Test model:
+```
+python train_cnn.py
+```
 
--> python test_cnn.py
+---
 
-This generates model.h5 for predictions.
+### 🔹 Test Model
 
-2. Predict Single Image via URL or Path
+```
+python test_cnn.py
+```
 
-Open fileimg.py and provide the image:
+This will evaluate model performance and generate predictions.
 
-In the code update the image path:-
+---
 
--> image_path = "path_or_url_to_id_card"
+## 🖼️ Predict Single Image (Without UI)
 
--> predict_image(image_path)
+You can test any image directly using:
 
-After this again you can test your provided image...
+```
+fileimg.py
+```
 
-Works for online images or local files
+Update this line in the file:
 
-Useful for testing without retraining the model
+```
+image_path = "path_or_url_to_id_card"
+```
 
+Then run:
 
-👤 Author
+```
+python fileimg.py
+```
 
-Vidhi Soni – AI/ML & Python Computer Vision Enthusiast
+✔ Works with:
+
+* Local file paths
+* Image URLs
+
+---
+
+## 📸 Sample Output
+
+* Upload ID card image
+* Model predicts: **Real / Fake**
+
+(Add your screenshots here if needed)
+
+---
+
+## 🛠️ Technologies Used
+
+* Python
+* OpenCV
+* TensorFlow / Keras
+* Streamlit
+* NumPy
+
+---
+
+## 📌 Notes
+
+* Dataset is included for training purposes
+* Large files like model are provided separately
+* Virtual environment (`venv`) is excluded from version control
+
+---
+
+## 👤 Author
+
+**Vidhi Soni**
+AI/ML & Computer Vision Enthusiast
+
+---
+
+## ⭐ Acknowledgment
+
+This project is developed as part of academic submission and demonstrates the application of deep learning in real-world identity verification.
+
+---
